@@ -21,5 +21,5 @@ func main() {
 	}
 
 	fmt.Printf("current time: %s\n", formatTime(localTime))
-	fmt.Printf("exact time: %s", formatTime(exactTime))
+	fmt.Printf("exact time: %s\n", formatTime(exactTime))
 }
