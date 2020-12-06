@@ -51,7 +51,7 @@ func TestUnpack(t *testing.T) {
 		},
 		{
 			input:    `s3\0f`,
-			expected: ``,
+			expected: `sssf`,
 		},
 		{
 			input:    `F0`,
