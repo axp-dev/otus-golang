@@ -21,13 +21,19 @@ func Unpack(s string) (string, error) {
 	builder := strings.Builder{}
 
 	for i, r := range s {
-		if unicode.IsDigit(r) {
+		if unicode.IsDigit(r) || string(r) == "\\" {
 			continue
 		}
 
 		if i < len(s)-1 {
 			if count, err := strconv.Atoi(string(s[i+1])); err == nil {
-				builder.WriteString(strings.Repeat(string(r), count))
+				repeatSymbol := string(r)
+
+				if i-1 > 0 && string(s[i-1]) == "\\" {
+					repeatSymbol = "\\" + repeatSymbol
+				}
+
+				builder.WriteString(strings.Repeat(repeatSymbol, count))
 
 				continue
 			}
