@@ -14,38 +14,39 @@ func Unpack(s string) (string, error) {
 		return "", nil
 	}
 
-	if isFirstLatterDigit(s) || isOnlyDigit(s) || isExistNumber(s) {
+	if isFirstLatterDigit(s) || isConsequentNumbers(s) {
 		return "", ErrInvalidString
 	}
 
 	builder := strings.Builder{}
+	slash := "\\"
 
 	for i, r := range s {
-		if unicode.IsDigit(r) || string(r) == "\\" {
+		symbol := string(r)
+
+		if unicode.IsDigit(r) || symbol == slash {
 			continue
+		}
+
+		if i > 1 && string(s[i-1]) == slash {
+			symbol = slash + symbol
 		}
 
 		if i < len(s)-1 {
 			if count, err := strconv.Atoi(string(s[i+1])); err == nil {
-				repeatSymbol := string(r)
-
-				if i-1 > 0 && string(s[i-1]) == "\\" {
-					repeatSymbol = "\\" + repeatSymbol
-				}
-
-				builder.WriteString(strings.Repeat(repeatSymbol, count))
+				builder.WriteString(strings.Repeat(symbol, count))
 
 				continue
 			}
 		}
 
-		builder.WriteString(string(r))
+		builder.WriteString(symbol)
 	}
 
 	return builder.String(), nil
 }
 
-func isExistNumber(s string) bool {
+func isConsequentNumbers(s string) bool {
 	previousDigit := false
 
 	for _, r := range s {
@@ -56,14 +57,6 @@ func isExistNumber(s string) bool {
 		}
 
 		previousDigit = isDigit
-	}
-
-	return false
-}
-
-func isOnlyDigit(s string) bool {
-	if _, err := strconv.Atoi(s); err == nil {
-		return true
 	}
 
 	return false
