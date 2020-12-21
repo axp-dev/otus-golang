@@ -1,4 +1,4 @@
-module github.com/axp-dev/hw03_frequency_analysis
+module github.com/axp-dev/otus-golang/hw03_frequency_analysis
 
 go 1.15
 
