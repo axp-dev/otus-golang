@@ -24,20 +24,22 @@ func wordsCount(words []string) map[string]int {
 func wordsTrimTop(words map[string]int, minLen int) []string {
 	list := make([]string, 0)
 
-	for w, c := range words {
-		if c >= minLen {
-			list = append(list, w)
-		}
+	for w := range words {
+		list = append(list, w)
 	}
 
 	sort.Slice(list, func(i, j int) bool {
 		return words[list[i]] > words[list[j]]
 	})
 
-	return list
+	return list[:minLen]
 }
 
 func Top10(text string) []string {
+	if text == "" {
+		return []string{}
+	}
+
 	words := parseText(text)
 	wordsCountMap := wordsCount(words)
 
