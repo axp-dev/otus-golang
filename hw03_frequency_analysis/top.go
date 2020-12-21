@@ -1,6 +1,45 @@
 package hw03_frequency_analysis //nolint:golint,stylecheck
 
-func Top10(_ string) []string {
-	// Place your code here
-	return nil
+import (
+	"regexp"
+	"sort"
+)
+
+func parseText(text string) []string {
+	r := regexp.MustCompile("[А-Яа-яA-Za-z'*?()$.,!-:]+")
+
+	return r.FindAllString(text, -1)
+}
+
+func wordsCount(words []string) map[string]int {
+	list := make(map[string]int)
+
+	for _, m := range words {
+		list[m]++
+	}
+
+	return list
+}
+
+func wordsTrimTop(words map[string]int, minLen int) []string {
+	list := make([]string, 0)
+
+	for w, c := range words {
+		if c >= minLen {
+			list = append(list, w)
+		}
+	}
+
+	sort.Slice(list, func(i, j int) bool {
+		return words[list[i]] > words[list[j]]
+	})
+
+	return list
+}
+
+func Top10(text string) []string {
+	words := parseText(text)
+	wordsCountMap := wordsCount(words)
+
+	return wordsTrimTop(wordsCountMap, 10)
 }
