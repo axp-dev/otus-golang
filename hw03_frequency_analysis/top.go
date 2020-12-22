@@ -6,7 +6,7 @@ import (
 )
 
 func parseText(text string) []string {
-	r := regexp.MustCompile("[А-Яа-яA-Za-z'*?()$.,!-:]+")
+	r := regexp.MustCompile("[А-Яа-яA-Za-z0-9'*?()$.,!-:]+")
 
 	return r.FindAllString(text, -1)
 }
@@ -22,7 +22,7 @@ func wordsCount(words []string) map[string]int {
 }
 
 func wordsTrimTop(words map[string]int, minLen int) []string {
-	list := make([]string, 0)
+	list := make([]string, 0, 10)
 
 	for w := range words {
 		list = append(list, w)
@@ -32,7 +32,11 @@ func wordsTrimTop(words map[string]int, minLen int) []string {
 		return words[list[i]] > words[list[j]]
 	})
 
-	return list[:minLen]
+	if len(list) >= minLen {
+		return list[:minLen]
+	}
+
+	return list
 }
 
 func Top10(text string) []string {
