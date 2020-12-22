@@ -22,7 +22,7 @@ func wordsCount(words []string) map[string]int {
 }
 
 func wordsTrimTop(words map[string]int, minLen int) []string {
-	list := make([]string, 0, 10)
+	list := make([]string, 0, minLen)
 
 	for w := range words {
 		list = append(list, w)
