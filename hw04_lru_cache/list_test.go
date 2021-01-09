@@ -15,6 +15,28 @@ func TestList(t *testing.T) {
 		require.Nil(t, l.Back())
 	})
 
+	t.Run("move to front the same element", func(t *testing.T) {
+		l := NewList()
+
+		l.PushFront(10)
+		l.MoveToFront(l.Back())
+
+		require.Equal(t, l.Front(), l.Back())
+	})
+
+	t.Run("complete rearrangement", func(t *testing.T) {
+		l := NewList()
+
+		l.PushFront(10)         // [10]
+		l.PushBack(20)          // [10, 20]
+		l.PushBack(30)          // [10, 20, 30]
+		l.MoveToFront(l.Back()) // [30, 10, 20]
+		l.MoveToFront(l.Back()) // [20, 30, 10]
+		l.MoveToFront(l.Back()) // [10, 20, 30]
+
+		require.Equal(t, 10, l.Front().Value)
+	})
+
 	t.Run("complex", func(t *testing.T) {
 		l := NewList()
 
